@@ -33,6 +33,8 @@ Python ≥ 3.9
 
 NumPy, SciPy, Matplotlib
 
+(Optional) PyElastica, Meep, or custom FEM solvers
+
 Author
 
 Edward Otieno(PhD student)
@@ -42,4 +44,4 @@ Supervisor
 Prof.Katarzyna Matczyszyn
 Wroclaw university of science and technology 
 
-(Optional) PyElastica, Meep, or custom FEM solvers
+
