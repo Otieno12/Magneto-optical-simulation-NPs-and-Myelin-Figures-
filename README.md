@@ -1,10 +1,9 @@
-Magneto-Optical Simulation Toolkit 🧠✨
-
-A Python-based research framework for simulating magneto-optical interactions in nanoparticle-doped myelin figures, designed to study soft photonic materials and field-induced waveguiding phenomena.
-
+Magneto-Optical Myelin Figures: Simulation and Analysis
 Overview
 
-This toolkit provides computational tools to explore:
+This project focuses on the magnetic field modulation of myelin figure geometry and its implications for soft photonic systems. By incorporating magnetic nanoparticles/optical dyes into myelin structures, we investigate how external fields dynamically control geometry and optical wave propagation in anisotropic soft materials.
+
+Key Features
 
 🧲 Magnetic field modulation of myelin figure geometry
 
@@ -20,12 +19,11 @@ Modeling field-responsive soft photonic materials
 
 Investigating light–matter interactions in hybrid biological systems
 
-Supporting quantum-inspired photonic simulations and device design
-
 Research Context
 
-This project contributes to emerging research on magnetically tunable soft photonics, where myelin figures act as biomimetic optical waveguides.
-By incorporating magnetic nanoparticles, the system enables dynamic control of light propagation and structure under external fields, providing insight into adaptive optics, quantum information materials, and bio-inspired photonic engineering.
+This project contributes to emerging research in magnetically tunable soft photonics, where myelin figures act as biomimetic optical waveguides.
+By integrating magnetic nanoparticles, the system enables dynamic control of both light propagation and structural geometry under external magnetic fields.
+This provides insight into adaptive optics and bio-inspired photonic engineering.
 
 Requirements
 
@@ -33,12 +31,13 @@ Python ≥ 3.9
 
 NumPy, SciPy, Matplotlib
 
-(Optional) PyElastica, Meep, or custom FEM solvers
+(Optional) PyElastica, Meep, or custom FEM solvers for mechanics and optics
 
 Author
 
-Edward Otieno(PhD student)
-Wroclaw university of science and technology 
+Edward Otieno (PhD student)
+Wroclaw University of Science and Technology
+
 
 Supervisor 
 Prof.Katarzyna Matczyszyn
