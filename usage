@@ -1,0 +1,45 @@
+"""
+FiPy-based simulation of radial diffusion and growth in multilayer myelin figures.
+
+Features:
+- Models a core-shell structure with fast-diffusing core and diffusion-limiting lipid bilayers (shells)
+- Supports multiple stacked bilayers to approximate realistic myelin structures
+- Computes steady-state concentration profiles across the radius
+- Calculates radial flux at the outermost shell and effective diffusion coefficient (D_eff)
+- Includes cylindrical geometry scaling (2πr) for radial flux
+- Gradient fitted over the outer layer to reduce numerical noise
+- Provides visualization of concentration profiles and bilayer boundaries
+
+Usage:
+- Adjust parameters such as number of layers, bilayer thickness, diffusion coefficients, and boundary concentrations
+- Can be integrated with radial growth loop for dynamic simulations of myelin tube growth
+
+Author: Edward Otieno
+Supervisor:Prof.Katarzyna
+Date: 2025
+"""
+### Note on Effective Diffusion Coefficient (D_eff)
+
+The diffusion coefficient obtained from the multilayer FiPy simulation is typically **one to two orders of magnitude lower** than the experimental values reported by Sakai for PC myelin figures (e.g., ~10⁻⁷ cm²/s). This difference arises due to several factors:
+
+1. **Single-layer vs. bulk measurement:**  
+   - The simulation calculates D_eff primarily based on the **outermost bilayer**, which acts as the limiting layer for radial diffusion.  
+   - Experimental measurements average diffusion across **multiple layers** and the surrounding solvent, leading to a larger effective value.
+
+2. **Cylindrical geometry effects:**  
+   - In radial growth, the flux scales with `2πr`.  
+   - The smaller radii in simulations reduce the effective flux per area, lowering D_eff compared to planar or bulk measurements.
+
+3. **Gradient estimation and numerical smoothing:**  
+   - The gradient is fitted over the outer layer (last 5–10 grid points) to reduce noise.  
+   - Experimental gradients are effectively averaged over the full structure, which can produce a higher apparent D.
+
+4. **Boundary conditions and concentration difference:**  
+   - The simulation uses normalized boundary concentrations (C_in = 0, C_out = 1), whereas experiments often have larger or varying concentration differences.  
+   - Larger ΔC in experiments increases the measured flux, resulting in higher D_eff.
+
+5. **Temperature, solvent, and lipid effects:**  
+   - Experimental diffusion is sensitive to **temperature, hydration, and lipid composition**, which are fixed or idealized in the simulation.
+
+**Conclusion:**  
+The simulation captures the **physical trends and relative diffusion resistance** of multilayer myelin, but the absolute D_eff is lower than experimental values due to **idealizations, limited layer modeling, and geometric factors**. This discrepancy is expected and can be addressed by incorporating **more bilayers, realistic solvent conditions, or calibration factors** in future work.
