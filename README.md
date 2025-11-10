@@ -15,6 +15,8 @@ Key Features
 
 📈 Quantitative analysis and visualization of optical and geometric responses
 <img width="4800" height="2400" alt="fdfd_modes" src="https://github.com/user-attachments/assets/da799ed9-75bd-4278-b7a6-809ec60f6e0e" />
+<img width="1668" height="465" alt="image" src="https://github.com/user-attachments/assets/e6dcc25f-4a5c-449b-aedc-940d305fd0c1" />
+
 
 
 Applications
