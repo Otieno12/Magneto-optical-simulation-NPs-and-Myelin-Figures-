@@ -1,6 +1,11 @@
 Magneto-Optical Myelin Figures: Simulation and Analysis
 Overview
+
 ![SP1 5Na60_NC_25%GLU_6Glass slide_0326](https://github.com/user-attachments/assets/1b84c869-a434-499f-a133-4d84a99e409a)
+![Screenshot 2025-11-10 153722](https://github.com/user-attachments/assets/fea8623e-adea-4a13-a8be-58d034d88c41)
+![Screenshot 2025-11-10 153722](https://github.com/user-attachments/assets/6dee419d-9ad3-4a1a-9bfd-19e5d8477104)
+
+
 
 
 This project focuses on the magnetic field modulation of myelin figure geometry and its implications for soft photonic systems. By incorporating magnetic nanoparticles/optical dyes into myelin structures, we investigate how external fields dynamically control geometry and optical wave propagation in anisotropic soft materials.
