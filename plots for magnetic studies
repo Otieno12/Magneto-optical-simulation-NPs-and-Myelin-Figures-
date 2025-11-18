@@ -1,0 +1,111 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+from matplotlib.gridspec import GridSpec
+
+plt.rcParams.update({
+    "font.size": 10,
+    "font.family": "sans-serif",
+    "axes.linewidth": 0.8,
+    "figure.dpi": 200
+})
+
+
+t = np.linspace(0, 300, 301)        
+
+theta0 = 90.0                       
+theta_inf = 0.5                    
+tau_true = 150.0                  
+np.random.seed(1)
+theta = theta_inf + (theta0 - theta_inf)*np.exp(-t/tau_true) + np.random.normal(0, 1.0, size=t.size)
+
+theta_before = np.random.vonmises(mu=np.radians(80), kappa=0.8, size=300)
+theta_during = np.random.vonmises(mu=np.radians(0), kappa=6.0, size=500)  
+
+
+Rin = 0.7e-6
+Rout = 1.8e-6
+L = 50e-6
+V = np.pi*(Rout**2 - Rin**2)*L
+mu0 = 4*np.pi*1e-7
+
+DeltaChi = 4e-7      
+B_example = 0.05     
+const_prefac = V/(2*mu0) * DeltaChi * B_example**2
+
+phi = np.linspace(0, 180, 360) 
+tau_phi = const_prefac * np.sin(2*np.deg2rad(phi)) 
+
+tau_plot = tau_phi
+
+
+nx, ny = 101, 101
+x = np.linspace(-1, 1, nx)
+y = np.linspace(-1, 1, ny)
+X, Y = np.meshgrid(x, y)
+Bz = 0.12 * np.exp(-2*np.sqrt(X**2+Y**2))  
+Bx = -0.02 * Y
+By = 0.02 * X
+
+tube_x = np.linspace(-0.6, 0.6, 30)
+tube_y = 0.2*np.sin(np.linspace(0, 2*np.pi, tube_x.size)) * 0.2
+tube_theta_deg = np.linspace(80, 0, tube_x.size)  
+
+
+def exp_fit(t, theta_inf_fit, A, tau_fit):
+    return theta_inf_fit + A * np.exp(-t / tau_fit)
+
+
+p0 = [theta[-1], theta[0]-theta[-1], tau_true]
+try:
+    popt, pcov = curve_fit(exp_fit, t, theta, p0=p0)
+    theta_inf_fit, A_fit, tau_fit = popt
+    tau_err = np.sqrt(np.diag(pcov))[2] if pcov is not None else np.nan
+except Exception as e:
+    theta_inf_fit, A_fit, tau_fit, tau_err = theta[-1], theta[0]-theta[-1], tau_true, np.nan
+
+
+fig = plt.figure(figsize=(10.5, 6))
+gs = GridSpec(2, 3, figure=fig, width_ratios=[1,1,1.1], height_ratios=[1,1], wspace=0.4, hspace=0.35)
+
+
+ax1 = fig.add_subplot(gs[0,0])
+ax1.plot(t, theta, '.', color='tab:green', markersize=3, alpha=0.8, label='data')
+ax1.plot(t, exp_fit(t, *popt), '-', color='tab:blue', lw=2, label=f'fit: τ={tau_fit:.0f} s')
+ax1.axvline(tau_fit, color='gray', ls='--', lw=0.8)
+ax1.set_xlabel('Time (s)')
+ax1.set_ylabel('Orientation θ (deg)')
+ax1.set_title('(a) Reorientation vs time')
+ax1.legend(loc='upper right', fontsize=8)
+ax1.grid(alpha=0.15)
+
+ax2 = fig.add_subplot(gs[0,1])
+tzoom = t[t<=60]
+theta_zoom = theta[t<=60]
+ax2.plot(tzoom, theta_zoom, '.', color='tab:green', markersize=3)
+ax2.plot(tzoom, exp_fit(tzoom, *popt), '-', color='tab:blue', lw=1.5)
+ax2.set_xlabel('Time (s)')
+ax2.set_ylabel('θ (deg)')
+ax2.set_title('(b) Early time')
+ax2.grid(alpha=0.15)
+
+ax3 = fig.add_subplot(gs[0,2])
+ax3.plot(phi, tau_plot, color='crimson', lw=2)
+ax3.axvline(0, color='k', lw=0.6)
+ax3.axvline(90, color='k', lw=0.6)
+ax3.set_xlabel('Angle θ (deg)')
+ax3.set_ylabel('Torque (arb. units)')
+ax3.set_title('(c) Analytic torque vs angle')
+ax3.text(5, 0.9*np.max(tau_plot), 'τ(0)=0\nτ(90)=0', fontsize=8, va='top')
+ax3.grid(alpha=0.12)
+
+
+
+ax4 = fig.add_subplot(gs[1,0], projection='polar')
+
+ax4.hist(theta_before % (2*np.pi), bins=36, alpha=0.5, label='Before', color='gray')
+ax4.hist(theta_during % (2*np.pi), bins=36, alpha=0.7, label='During', color='tab:green')
+ax4.set_theta_zero_location("E")
+ax4.set_theta_direction(-1)
+ax4.set_title('(d) Orientation distribution', pad=6)
+ax4.legend(loc='upper right', fontsize=7)
